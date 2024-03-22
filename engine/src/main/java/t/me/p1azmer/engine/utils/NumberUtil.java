@@ -177,14 +177,6 @@ public class NumberUtil {
         return arr;
     }
 
-    /**
-     * коррекция числа в слово
-     *
-     * @param amount - Число
-     * @param words  - Слова конвертации (указывать именно слово в количестве 3-х штук)
-     *               1 - ноль, 2 - три, 3 - пять
-     * @return - конвертированное слово
-     */
     public static String getCorrectWord(long amount, String... words) {
         if (words.length < 2)
             return "words is empty!";
@@ -199,14 +191,6 @@ public class NumberUtil {
             return words[2];
     }
 
-    /**
-     * коррекция числа в слово
-     *
-     * @param amount - Число
-     * @param words  - Слова конвертации (указывать именно слово в количестве 3-х штук)
-     *               1 - ноль, 2 - три, 3 - пять
-     * @return - конвертированное слово
-     */
     public static String getCorrectWord(double amount, String... words) {
         if (words.length < 2)
             return "words is empty!";
@@ -221,14 +205,6 @@ public class NumberUtil {
             return words[2];
     }
 
-    /**
-     * коррекция числа в слово
-     *
-     * @param amount - Число
-     * @param words  - Слова конвертации (указывать именно слово в количестве 3-х штук)
-     *               1 - ноль, 2 - три, 3 - пять
-     * @return - конвертированное слово
-     */
     public static String getCorrectWord(int amount, String... words) {
         if (words.length < 2)
             return "words is empty!";
@@ -259,11 +235,6 @@ public class NumberUtil {
     }
 
 
-    /**
-     * @param value - число, которое будем конвертировать
-     * @param words - слова, для конвертации. Необходимо указать от 0 до 9
-     * @return конвертированное слово
-     */
     public static String convert(final int value, String... words) {
         if (words.length < 9) {
             return "words is empty";
@@ -299,11 +270,6 @@ public class NumberUtil {
         return convert(value, words.toArray(new String[0]));
     }
 
-    /**
-     * @param value - число, которое будем конвертировать
-     * @param words - слова, для конвертации. Необходимо указать от 0 до 9
-     * @return конвертированное слово
-     */
     public static String convert(final short value, String... words) {
         if (words.length < 9) {
             return "words is empty";

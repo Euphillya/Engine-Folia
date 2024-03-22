@@ -1,8 +1,8 @@
 package t.me.p1azmer.engine.api.server;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.jetbrains.annotations.NotNull;
 import t.me.p1azmer.engine.NexPlugin;
-import t.me.p1azmer.folia.Folia;
 
 public abstract class AbstractTask<P extends NexPlugin<P>> {
 
@@ -36,33 +36,13 @@ public abstract class AbstractTask<P extends NexPlugin<P>> {
         if (this.taskId >= 0) return false;
         if (this.interval <= 0L) return false;
 
-        if (this.async) {
-            if (NexPlugin.isFolia) {
-                this.taskId = Folia.executeTimer(this::action, 1L, interval).taskId();
-            } else {
-                this.taskId = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::action, 1L, interval).getTaskId();
-            }
-        } else {
-            if (NexPlugin.isFolia) {
-                this.taskId = Folia.executeTimer(this::action, 1L, interval).taskId();
-            } else {
-                this.taskId = plugin.getServer().getScheduler().runTaskTimer(this.plugin, this::action, 1L, interval).getTaskId();
-            }
-        }
+        NexPlugin.getScheduler().runAtFixedRate(this.async ? SchedulerType.ASYNC : SchedulerType.SYNC, schedulerTaskInter -> action(), 1L, interval).getTaskId();
         return true;
     }
 
     public boolean stop() {
         if (this.taskId < 0) return false;
-
-        if (NexPlugin.isFolia) {
-            if (Folia.getMorePaperLib() != null)
-                Folia.getMorePaperLib().scheduling().cancelTask(this.taskId);
-        } else {
-            this.plugin.getServer().getScheduler().cancelTask(this.taskId);
-        }
-
-
+        NexPlugin.getScheduler().cancelTask(this.taskId);
         this.taskId = -1;
         return true;
     }

@@ -1,5 +1,6 @@
 package t.me.p1azmer.engine.actions.actions;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import t.me.p1azmer.engine.NexPlugin;
@@ -7,7 +8,6 @@ import t.me.p1azmer.engine.actions.ActionManipulator;
 import t.me.p1azmer.engine.actions.Parametized;
 import t.me.p1azmer.engine.actions.params.IParamResult;
 import t.me.p1azmer.engine.actions.params.IParamType;
-import t.me.p1azmer.folia.Folia;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -40,11 +40,7 @@ public abstract class AbstractActionExecutor extends Parametized {
             final String fullStr2 = fullStr;
 
             if (delay > 0) {
-                if (NexPlugin.isFolia) {
-                    Folia.executeLater(() -> this.process(exe, targetMap, fullStr2 + FLAG_NO_DELAY, manipulator), delay);
-                    return;
-                }
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> this.process(exe, targetMap, fullStr2 + FLAG_NO_DELAY, manipulator), delay);
+                NexPlugin.getScheduler().runDelayed(SchedulerType.SYNC, exe, (__) -> this.process(exe, targetMap, fullStr2 + FLAG_NO_DELAY, manipulator), null, delay);
                 return;
             }
         }

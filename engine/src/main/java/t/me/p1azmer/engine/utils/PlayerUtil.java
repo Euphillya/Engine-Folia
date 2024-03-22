@@ -2,6 +2,7 @@ package t.me.p1azmer.engine.utils;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import fr.euphyllia.energie.model.SchedulerType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import t.me.p1azmer.engine.NexPlugin;
 import t.me.p1azmer.engine.config.EngineConfig;
 import t.me.p1azmer.engine.integration.external.VaultHook;
 import t.me.p1azmer.engine.lang.EngineLang;
@@ -53,7 +55,7 @@ public class PlayerUtil {
     }
 
     public static void connectToServer(Player player, String server) {
-        EngineUtils.ENGINE.runTaskAsync(task -> {
+        NexPlugin.getScheduler().runTask(SchedulerType.ASYNC, task -> {
             try {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("Connect");

@@ -1,7 +1,9 @@
 package t.me.p1azmer.engine.api.menu.click;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import t.me.p1azmer.engine.NexPlugin;
 import t.me.p1azmer.engine.api.menu.impl.Menu;
 
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class ClickHandler<E extends Enum<E>> {
 
     @NotNull
     public static ItemClick forClose(@NotNull Menu<?> menu) {
-        return ((viewer, event) -> menu.plugin().runTask(task -> viewer.getPlayer().closeInventory()));
+        return ((viewer, event) -> NexPlugin.getScheduler().runTask(SchedulerType.SYNC, viewer.getPlayer(), task -> viewer.getPlayer().closeInventory(), null));
     }
 
     @NotNull

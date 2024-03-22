@@ -18,7 +18,6 @@ public class Cooldowner {
         this.time   = time;
     }
 
-    // Проверяем существует ли кулдаун.
     public static boolean isInCooldown(String player, String name) {
         if (getTimeLeft(player, name) >= 1) {
             return true;
@@ -35,7 +34,6 @@ public class Cooldowner {
         } catch (Exception ignored) {}
     }
 
-    // Получаем оставшееся время кулдауна.
     public static int getTimeLeft(String player, String name) {
         Cooldowner cooldown = cooldowns.get(player + name);
         int f = -1;

@@ -1,5 +1,6 @@
 package t.me.p1azmer.engine.api.data;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -134,7 +135,7 @@ public abstract class AbstractUserManager<P extends NexPlugin<P>, U extends Abst
         if (user != null) {
             consumer.accept(user);
         }
-        else this.getUserDataAsync(name).thenAccept(user2 -> this.plugin.runTask(task -> consumer.accept(user2)));
+        else this.getUserDataAsync(name).thenAccept(user2 -> NexPlugin.getScheduler().runTask(SchedulerType.SYNC, task -> consumer.accept(user2)));
     }
 
     public void getUserDataAndPerform(@NotNull UUID uuid, Consumer<U> consumer) {
@@ -142,7 +143,7 @@ public abstract class AbstractUserManager<P extends NexPlugin<P>, U extends Abst
         if (user != null) {
             consumer.accept(user);
         }
-        else this.getUserDataAsync(uuid).thenAccept(user2 -> this.plugin.runTask(task -> consumer.accept(user2)));
+        else this.getUserDataAsync(uuid).thenAccept(user2 -> NexPlugin.getScheduler().runTask(SchedulerType.SYNC, task -> consumer.accept(user2)));
     }
 
     public void getUserDataAndPerformAsync(@NotNull String name, Consumer<U> consumer) {
@@ -183,7 +184,7 @@ public abstract class AbstractUserManager<P extends NexPlugin<P>, U extends Abst
     }
 
     public void saveUser(@NotNull U user) {
-        this.plugin.runTaskAsync(task -> this.dataHolder.getData().saveUser(user));
+        NexPlugin.getScheduler().runTask(SchedulerType.ASYNC, task -> this.dataHolder.getData().saveUser(user));
     }
 
     @NotNull
@@ -288,16 +289,12 @@ public abstract class AbstractUserManager<P extends NexPlugin<P>, U extends Abst
         public void onUserQuit(PlayerQuitEvent event) {
             // slow down the process without loading the main thread so that the data is saved without loss
             // for Proxy switching
-            CompletableFuture.runAsync(() -> {
-                plugin.runTask(sync -> unloadUser(event.getPlayer()));
-            }).join();
+            unloadUser(event.getPlayer());
         }
 
         @EventHandler(priority = EventPriority.MONITOR)
         public void onUserQuit(PlayerKickEvent event) {
-            CompletableFuture.runAsync(() -> {
-                plugin.runTask(sync -> unloadUser(event.getPlayer()));
-            }).join();
+            unloadUser(event.getPlayer());
         }
 
         @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

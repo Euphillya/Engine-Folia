@@ -357,8 +357,6 @@ public class MessageUtil {
 //        craftPlayer.connection.send(packet);
     }
 
-    // Далее идут ивенты для @sendItemMessage
-
     @Deprecated
     public static class MessageItemEvents extends AbstractListener<NexEngine> {
 

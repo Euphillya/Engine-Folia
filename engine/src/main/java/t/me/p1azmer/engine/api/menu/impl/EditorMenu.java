@@ -1,5 +1,6 @@
 package t.me.p1azmer.engine.api.menu.impl;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -98,7 +99,7 @@ public class EditorMenu<P extends NexPlugin<P>, T> extends Menu<P> {
     public void handleInput(@NotNull Player player, @NotNull LangMessage prompt, @NotNull InputHandler handler) {
         EditorManager.prompt(player, prompt.getLocalized());
         EditorManager.startEdit(player, handler);
-        this.plugin.runTask(task -> player.closeInventory());
+        NexPlugin.getScheduler().runTask(SchedulerType.SYNC, player, task -> player.closeInventory(), null);
     }
 
     @NotNull

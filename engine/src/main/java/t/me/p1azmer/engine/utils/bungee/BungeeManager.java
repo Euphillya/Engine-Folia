@@ -4,6 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import fr.euphyllia.energie.model.SchedulerType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.Messenger;
@@ -55,7 +56,7 @@ public class BungeeManager<P extends NexPlugin<P>> extends AbstractManager<P> {
     }
 
     public void connect(Player player, String server) {
-       plugin.runTaskAsync(task->{
+        NexPlugin.getScheduler().runTask(SchedulerType.ASYNC, task -> {
             try {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("Connect");
@@ -71,7 +72,7 @@ public class BungeeManager<P extends NexPlugin<P>> extends AbstractManager<P> {
             return; // do not check for players
         }
         lastServerCheck.put(server, (byte) 0);
-        plugin.runTaskAsync(task->{
+        NexPlugin.getScheduler().runTask(SchedulerType.ASYNC, task -> {
             try {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("PlayerCount");

@@ -1,5 +1,6 @@
 package t.me.p1azmer.engine.api.menu.impl;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,7 +19,6 @@ import t.me.p1azmer.engine.api.menu.click.ItemClick;
 import t.me.p1azmer.engine.api.menu.item.ItemOptions;
 import t.me.p1azmer.engine.api.menu.item.MenuItem;
 import t.me.p1azmer.engine.api.menu.link.Linked;
-import t.me.p1azmer.folia.Folia;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -78,7 +78,7 @@ public abstract class Menu<P extends NexPlugin<P>> {
     }
 
     public void openNextTick(@NotNull Player player, int page) {
-        this.plugin.runTask(task -> this.open(player, page));
+        NexPlugin.getScheduler().runTask(SchedulerType.SYNC, player, task -> this.open(player, page), null);
     }
 
     public boolean open(@NotNull MenuViewer viewer, int page) {
@@ -87,7 +87,7 @@ public abstract class Menu<P extends NexPlugin<P>> {
 
     public boolean open(@NotNull Player player, int page) {
         if (!this.canOpen(player, page)) {
-            this.plugin.runTask(task -> player.closeInventory());
+            NexPlugin.getScheduler().runTask(SchedulerType.SYNC, player, task -> player.closeInventory(), null);
             return false;
         }
 

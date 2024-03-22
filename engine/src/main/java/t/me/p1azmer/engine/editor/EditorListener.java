@@ -1,5 +1,6 @@
 package t.me.p1azmer.engine.editor;
 
+import fr.euphyllia.energie.model.SchedulerType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,6 +9,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import t.me.p1azmer.engine.NexEngine;
+import t.me.p1azmer.engine.NexPlugin;
 import t.me.p1azmer.engine.api.editor.InputHandler;
 import t.me.p1azmer.engine.api.editor.InputWrapper;
 import t.me.p1azmer.engine.api.manager.AbstractListener;
@@ -39,11 +41,11 @@ public class EditorListener extends AbstractListener<NexEngine> {
 
         InputWrapper wrapper = new InputWrapper(event);
 
-        this.plugin.runTask(task -> {
+        NexPlugin.getScheduler().runTask(SchedulerType.SYNC, player, task -> {
             if (wrapper.getTextRaw().equalsIgnoreCase(EditorManager.EXIT) || handler.handle(wrapper)) {
                 EditorManager.endEdit(player);
             }
-        });
+        }, null);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -68,10 +70,10 @@ public class EditorListener extends AbstractListener<NexEngine> {
         AsyncPlayerChatEvent chatEvent = new AsyncPlayerChatEvent(true, player, text, new HashSet<>());
         InputWrapper wrapper = new InputWrapper(chatEvent);
 
-        this.plugin.runTask(task -> {
+        NexPlugin.getScheduler().runTask(SchedulerType.SYNC, player, task -> {
             if (wrapper.getTextRaw().equalsIgnoreCase(EditorManager.EXIT) || handler.handle(wrapper)) {
                 EditorManager.endEdit(player);
             }
-        });
+        }, null);
     }
 }

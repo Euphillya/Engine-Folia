@@ -9,14 +9,6 @@ import java.util.List;
 @Deprecated
 public class Wave {
 
-
-    /**
-     * @param text       - основной текст
-     * @param colorsList - цвета через запятую
-     *                   //     * @param length - длина цвета
-     *                   //     * @param smooth - использовать РГБ
-     * @return анимация
-     */
     public static List<String> execute(String text, String colorsList) {
         List<String> frames = new ArrayList<>();
         String[] colors = colorsList.split(",");

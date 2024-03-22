@@ -1,6 +1,5 @@
 rootProject.name = 'PLAZMER-ENGINE'
 include(
         'engine'
-        , 'folia'
 //        ,'playerBlockTracker'
 )

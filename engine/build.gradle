@@ -43,13 +43,17 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
-    implementation(project":folia")
+    implementation("com.github.Euphillya:Energie:1.1.9")
 }
 
 tasks {
     build {
         dependsOn(shadowJar)
     }
+    shadowJar {
+        relocate("fr.euphyllia.energie", "t.me.plazmer.engine.shaded.energie")
+    }
+
 }
 publishing {
     publications {
